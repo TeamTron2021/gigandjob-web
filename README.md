@@ -1,16 +1,9 @@
-# gigandjob_web
+# Git and Job (Web Service)
+Frontend para git and job, un sistema de busqueda y aplicación de empleos tanto fijos como gits. Este repositorio tiene como objetivo desplegar el servicio frontend de la aplicación web  haciendo uso de la arquitectura BLoC de Flutter.
 
-Aplication Web Tron
+## 🚀Iniciando 
+Estas instrucciones serviran para obtener una copia del proyecto en funcionamiento en su máquina local con el fin de desarollo y realizar pruebas.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 📋Pre-requisitos 
+* [Flutter](https://flutter.dev/) - SDK de código fuente abierto para el desarrollo de aplicaciones web y móviles.
+ 
