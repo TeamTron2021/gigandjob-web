@@ -6,4 +6,28 @@ Estas instrucciones serviran para obtener una copia del proyecto en funcionamien
 
 ### 📋Pre-requisitos 
 * [Flutter](https://flutter.dev/) - SDK de código fuente abierto para el desarrollo de aplicaciones web y móviles.
- 
+* [Dart](https://dart.dev/) - Lenguaje de Programación.
+* [Git](https://git-scm.com/) - Manejador de versiones.
+
+## 🔧Instalación 
+Procedemos a clonar el repositorio
+```
+git clone https://github.com/TeamTron2021/gigandjob-web.git
+```
+Despues
+```
+cd gigandjob-web
+
+Luego, configurar el proyecto con el SDK de flutter.
+
+Para descargar los paquetes en proyectos dart.
+
+flutter pub get
+
+Ignora cualquier archivo de bloqueo existente, por lo que Pub puede obtener las últimas versiones de todas las dependencias.
+
+flutter pub upgrade
+
+Este comando permitirá un análisis de los elementos imprescindibles para el correcto funcionamiento del producto.
+
+flutter doctor
