@@ -8,6 +8,7 @@ Estas instrucciones serviran para obtener una copia del proyecto en funcionamien
 * [Flutter](https://flutter.dev/) - SDK de código fuente abierto para el desarrollo de aplicaciones web y móviles.
 * [Dart](https://dart.dev/) - Lenguaje de Programación.
 * [Git](https://git-scm.com/) - Manejador de versiones.
+* [AndroidStudio](https://developer.android.com/studio) - Proporciona las SDK de Google necesarias.
 * [GooogleChorme](https://www.google.com/intl/es/chrome/) - Navegador para correr el proyecto.
 
 ## 🔧Instalación 
