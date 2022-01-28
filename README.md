@@ -54,6 +54,11 @@ flutter test
 * **Ruben Gomes** - [RubenDGomesdev](https://github.com/RubenDGomesdev)
 * **Pablo Perez** - [PabloP16](https://github.com/PabloP16)
 * **Andrea Mendoza** - [andreaamg22](https://github.com/andreaamg22)
+* **Diego Rojas** - [superdie18](https://github.com/superdie18)
+* **Juan Carlos Andrade** - [jotacee98](https://github.com/jotacee98)
+* **Ruth Rivas** - [RHRivasG](https://github.com/RHRivasG)
+* **Javier Flores** - [javier0997](https://github.com/javier0997)
+* **Carlos Freitas** - [trekexol](https://github.com/trekexol)
 
 ---
 Hecho con ❤️ por [Team Tron](https://github.com/TeamTron2021) 😊
