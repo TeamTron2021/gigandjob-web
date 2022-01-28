@@ -42,11 +42,7 @@ Para correr el proyecto en el navegador web.
 flutter run -d chrome
 ``` 
 ## ⚙️Corriendo pruebas
-Para correr los tests necesarios para validar el correcto funcionamiento de los witgets del proyecto necesitamos movernos a la carpeta de tests.
-```
-cd test
-```
-Posteriormente haremos uso del comando para correr los tests necesarios
+Para correr los tests necesarios para validar el correcto funcionamiento de los witgets del proyecto haremos uso del comando
 ```
 flutter test
 ```
