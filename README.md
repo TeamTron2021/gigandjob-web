@@ -38,6 +38,8 @@ Este comando permitirá un análisis de los elementos imprescindibles para el co
 ```
 flutter doctor
 ```
+Ejemplo de una prueba exitosa con Flutter Doctor.
+![Alt text](https://ibb.co/gyvV0Z3 "Optional title")
 Para correr el proyecto en el navegador web.
 ```
 flutter run -d chrome
