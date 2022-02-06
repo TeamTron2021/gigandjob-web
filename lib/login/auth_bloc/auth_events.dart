@@ -11,11 +11,11 @@ abstract class AuthenticationEvent extends Equatable {
 class AppLoaded extends AuthenticationEvent {}
 
 class AdminLoggedIn extends AuthenticationEvent {
-  final AdminRepository admin;
-  const AdminLoggedIn ({required this.admin});
+  final String token;
+  const AdminLoggedIn ({required this.token});
 
   @override
-  List<Object> get props => [admin];
+  List<Object> get props => [token];
 
 }
 

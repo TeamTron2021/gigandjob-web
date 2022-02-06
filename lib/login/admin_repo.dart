@@ -1,22 +1,15 @@
 import 'package:gigandjob_web/constants.dart';
-import 'package:gigandjob_web/login/admin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminRepository {
 
-  Future<void> singOut() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return;
-  }
-
-
-  Future<Admin?> authenticate({required String username, required String password}) async {
+  Future<String> authenticate({required String username, required String password}) async {
     await Future.delayed(const Duration(seconds: 2));
 
     if (username == 'admin' && password == 'admin') {
-      return Admin(username, password);
+      return 'success';
     }
-    return null;
+    return 'failed';
   }
 
   Future<void> deleteToken() async {

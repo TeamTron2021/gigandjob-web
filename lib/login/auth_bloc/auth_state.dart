@@ -17,12 +17,12 @@ class AuthenticationNotAuthenticated extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {
 
-  final AdminRepository admin;
+  // final AdminRepository admin;
 
-  const AuthenticationAuthenticated({required this.admin});
+  // const AuthenticationAuthenticated({required this.admin});
 
-  @override
-  List<Object> get props => [admin];
+  // @override
+  // List<Object> get props => [admin];
 
 }
 

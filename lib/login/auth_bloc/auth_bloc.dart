@@ -32,13 +32,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
     try {
       await Future.delayed(const Duration(seconds: 1));
-      final currentAdmin = await _adminRepository.authenticate(username: "", password: "");
+      
+      final bool hasToken = await _adminRepository.hasToken();
 
-      if (currentAdmin != null) {
-        yield AuthenticationAuthenticated(admin: currentAdmin);
+      if (hasToken) {
+        yield AuthenticationAuthenticated();
       } else {
         yield AuthenticationNotAuthenticated();
       }
+
     } catch (e) {
       yield const AuthenticationFailure(message: 'Ah ocurrido un error inesperado');
     }
@@ -46,11 +48,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   Stream<AuthenticationState> _mapAdminLoggedInToState(AdminLoggedIn event) async* {
-    yield AuthenticationAuthenticated(admin: event.admin);
+    yield AuthenticationLoading();
+    await _adminRepository.persistToken(event.token);
+    yield AuthenticationAuthenticated();
   }
 
   Stream<AuthenticationState> _mapAdminLoggedOutToState(AdminLoggedOut event) async* {
-    await _adminRepository.singOut();
+    yield AuthenticationLoading();
+    await _adminRepository.deleteToken();
     yield AuthenticationNotAuthenticated();
   }
 

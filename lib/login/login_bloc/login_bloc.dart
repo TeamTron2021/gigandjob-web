@@ -17,27 +17,25 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   _adminRepository = adminRepository,
   super(LoginInitial());
 
-  LoginState get initialState => LoginInitial();
 
   Stream<LoginState> mapEventToState (LoginEvent event) async* {
     
     if (event is LoginSummitButtomPressed) {
       yield* _mapLoginSummitButtomPressed(event);
+      
     }
 
   }
 
   Stream<LoginState> _mapLoginSummitButtomPressed(LoginSummitButtomPressed event) async* {
     yield LoginLoading();
-
     try {
-      final admin = await _adminRepository.authenticate(username: event.username, password: event.password);
-
-      if (admin != null) {
-        _authenticationBloc.add(AdminLoggedIn(admin: admin));
-        yield LoginSuccess();
-        yield LoginInitial();
-      } else {
+      final token = await _adminRepository
+      .authenticate(username: event.username, password: event.password);
+      
+      if (token == 'success') {
+        _authenticationBloc.add(AdminLoggedIn(token: token));
+      }  else {
         yield LoginFailure(error: "Algo inesperado ha pasado");
       }
 
@@ -45,6 +43,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginFailure(error: 'Algo muy malo paso');
     }
   }
+
+  void setState(Null Function() param0) {}
 
 
 
