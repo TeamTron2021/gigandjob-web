@@ -48,7 +48,7 @@ final AdminRepository adminRepo;
         builder: (context, state) {
 
           if (state is AuthenticationAuthenticated) {
-            return Dashboard();
+            return Dashboard(title:'test' ,);
           }
         
           return LoginPage(userRepository: adminRepo,);
