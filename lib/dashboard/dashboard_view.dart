@@ -1,6 +1,7 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gigandjob_web/create-job-offer/create_job_offer_screen.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_bloc.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_events.dart';
 
@@ -64,7 +65,7 @@ class _MyHomePageState extends State<Dashboard> {
               selectedIconColor: Colors.black87,
               unselectedIconColor: Colors.white,
               unselectedTitleTextStyle: const TextStyle(color: Colors.white),
-             // unselectedTitleTextStyle: Colors.white70, 
+             // unselectedTitleTextStyle: Colors.white70,
               // backgroundColor: Colors.amber,
               // openSideMenuWidth: 200
             ),
@@ -98,7 +99,7 @@ class _MyHomePageState extends State<Dashboard> {
                 priority: 0,
                 title: 'Dashboard',
                 onTap: () {
-                  
+
                 },
                 icon: Icons.home,
               ),
@@ -133,6 +134,14 @@ class _MyHomePageState extends State<Dashboard> {
                   page.jumpToPage(4);
                 },
                 icon: Icons.settings,
+              ),
+              SideMenuItem(
+                priority: 5,
+                title: 'Create a Job Offer',
+                onTap: () {
+                  page.jumpToPage(5);
+                },
+                icon: Icons.assignment,
               ),
             ],
           ),
@@ -184,6 +193,10 @@ class _MyHomePageState extends State<Dashboard> {
                       style: TextStyle(fontSize: 35),
                     ),
                   ),
+                ),
+                Container(
+                  color: Colors.black54,
+                  child: const CreateJobOfferScreen(),
                 ),
               ],
             ),
