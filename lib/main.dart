@@ -54,11 +54,11 @@ final AdminRepository adminRepo;
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
 
-            //if (state is AuthenticationAuthenticated) {
+            if (state is AuthenticationAuthenticated) {
               return Dashboard(title:'test' ,);
-            //}
+            }
           
-            //return LoginPage(userRepository: adminRepo,);
+            return LoginPage(userRepository: adminRepo,);
           },
         )
       ),
