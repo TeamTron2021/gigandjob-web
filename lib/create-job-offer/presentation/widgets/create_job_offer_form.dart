@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gigandjob_web/create-job-offer/cubit/add_job_offer_cubit.dart';
+import 'package:gigandjob_web/create-job-offer/cubit/add_job_offer_cubit.dart';
+import 'package:gigandjob_web/create-job-offer/data/models/job_offer.dart';
+import 'package:gigandjob_web/create-job-offer/data/models/skill.dart';
 import 'package:intl/intl.dart';
 class CreateJobOfferForm extends StatefulWidget {
   const CreateJobOfferForm({Key? key}) : super(key: key);
@@ -43,7 +48,17 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
+    return BlocListener<AddJobOfferCubit, AddJobOfferState>(
+        listener: (context, state) {
+          if(state is AddJobOfferError){
+            print('Fallo');
+          }
+          if(state is JobOfferAdded) {
+            print('Funciona');
+          }
+
+  },
+  child: Form(
       key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(40.0),
@@ -190,7 +205,9 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
               label: const Text('Send', style: TextStyle(fontSize: 20),),
               icon: const Icon(Icons.send),
               onPressed: () {
-
+                  List<Skill> skills = [Skill('Probando')];
+                  JobOffer offer = JobOffer(description: 'Probando',salary: 400, skills: skills, title: 'Hola', startDate: currentDate, finalDate: finalDate, vacant: 2);
+                  BlocProvider.of<AddJobOfferCubit>(context).addJobOffer(offer);
               },
               style: ElevatedButton.styleFrom(
                 primary: Theme.of(context).primaryColorDark,
@@ -200,6 +217,7 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
           ],
         ),
       ),
-    );
+    ),
+);
   }
 }

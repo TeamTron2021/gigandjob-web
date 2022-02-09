@@ -1,6 +1,6 @@
 import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/material.dart';
-import 'package:gigandjob_web/create-job-offer/widgets/create_job_offer_form.dart';
+import 'package:gigandjob_web/create-job-offer/presentation/widgets/create_job_offer_form.dart';
 
 class CreateJobOfferScreen extends StatefulWidget {
   const CreateJobOfferScreen({Key? key}) : super(key: key);

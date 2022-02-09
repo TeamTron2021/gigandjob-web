@@ -1,7 +1,8 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gigandjob_web/create-job-offer/create_job_offer_screen.dart';
+import 'package:gigandjob_web/create-employeer/create_employeer_screen.dart';
+import 'package:gigandjob_web/create-job-offer/presentation/create_job_offer_screen.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_bloc.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_events.dart';
 
@@ -87,7 +88,7 @@ class _MyHomePageState extends State<Dashboard> {
             footer:  Padding(
               padding: const EdgeInsets.all(0.0),
               child: SideMenuItem(
-                priority: 6,
+                priority: 7,
                 title: 'Exit',
                 onTap: () async {BlocProvider.of<AuthenticationBloc>(context)
                     .add(AdminLoggedOut());},
@@ -143,6 +144,14 @@ class _MyHomePageState extends State<Dashboard> {
                 },
                 icon: Icons.assignment,
               ),
+              SideMenuItem(
+                priority: 6,
+                title: 'Create a Employer',
+                onTap: () {
+                  page.jumpToPage(6);
+                },
+                icon: Icons.supervised_user_circle,
+              ),
             ],
           ),
           Expanded(
@@ -197,6 +206,10 @@ class _MyHomePageState extends State<Dashboard> {
                 Container(
                   color: Colors.black54,
                   child: const CreateJobOfferScreen(),
+                ),
+                Container(
+                  color: Colors.black54,
+                  child: const CreateEmployerScreen(),
                 ),
               ],
             ),
