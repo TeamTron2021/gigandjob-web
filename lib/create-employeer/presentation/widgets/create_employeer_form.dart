@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gigandjob_web/create-employeer/cubit/register_employeer_cubit.dart';
-import 'package:gigandjob_web/create-employeer/cubit/register_employeer_cubit.dart';
 import 'package:gigandjob_web/create-employeer/data/models/employeer.dart';
-import 'package:gigandjob_web/create-employeer/presentation/widgets/google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CreateEmployerForm extends StatefulWidget {
@@ -19,22 +17,31 @@ class _CreateEmployerFormState extends State<CreateEmployerForm> {
   final rifController = TextEditingController();
   final industryController = TextEditingController();
   bool _isLoading = false;
-
+  List<Marker> markers = <Marker>[];
+  late final GoogleMapController _controller;
   final _formKey = GlobalKey<FormState>();
-
+  var latitude = 0.0;
+  var longitude = 0.0;
   void _submitData() {
     var companyName = companyNameController.text;
     var companyMail = companyMailController.text;
     var rif = rifController.text;
     var industry = industryController.text;
-    var latitude = '+90.0, -127.554334';
-    var longitude = '47.1231231, 179.99999999';
+
+    if(latitude == 0.0 || longitude == 0.0 ){
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Please tap on your location'),
+        duration: Duration(milliseconds: 1000),
+        backgroundColor: Theme.of(context).errorColor,
+      ));
+      return ;
+    }
     var newEmployeer = Employeer(
         companyName: companyName,
         companyMail: companyMail,
         rif: rif,
-        latitude: latitude,
-        longitude: longitude,
+        latitude: latitude.toString(),
+        longitude: longitude.toString(),
         industry: industry);
     BlocProvider.of<RegisterEmployeerCubit>(context).registerEmployeer(newEmployeer);
   }
@@ -44,7 +51,10 @@ class _CreateEmployerFormState extends State<CreateEmployerForm> {
     companyMailController.clear();
     rifController.clear();
     industryController.clear();
+    latitude = 0.0;
+    longitude = 0.0;
   }
+  @override
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +155,39 @@ class _CreateEmployerFormState extends State<CreateEmployerForm> {
                         return 'The industry should not be empty, and should be valid';
                       },
                     )),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    const Text(
+                      'Please tap on your localization ',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    Container(child:
+                      GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(10.4806, -66.9036),
+                          zoom: 14,
+                        ),
+                        onTap: (latLng) {
+                          setState(() {
+                            latitude = latLng.latitude;
+                            longitude = latLng.longitude;
+                          });
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('The selected location is ${latitude}, ${longitude}'),
+                            duration: Duration(milliseconds: 3000),
+                            backgroundColor: Colors.green,
+                          ));
+                        },
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller = controller;
+                        },
+
+                      )
+                      , height: 500,),
                     const SizedBox(
                       height: 25,
                     ),
