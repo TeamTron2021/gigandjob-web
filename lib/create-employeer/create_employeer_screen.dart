@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gigandjob_web/create-employeer/widgets/create_employeer_form.dart';
+import 'package:gigandjob_web/create-employeer/presentation/widgets/create_employeer_form.dart';
 
 class CreateEmployerScreen extends StatefulWidget {
   const CreateEmployerScreen({Key? key}) : super(key: key);

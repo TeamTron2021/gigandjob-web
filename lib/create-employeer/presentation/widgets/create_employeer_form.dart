@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gigandjob_web/create-employeer/widgets/google_maps.dart';
+import 'package:gigandjob_web/create-employeer/presentation/widgets/google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CreateEmployerForm extends StatefulWidget {
@@ -11,8 +11,6 @@ class CreateEmployerForm extends StatefulWidget {
 
 class _CreateEmployerFormState extends State<CreateEmployerForm> {
   final _formKey = GlobalKey<FormState>();
-  LatLng latLng = LatLng(1.3521, 103.8198);
-  Set<Marker> _markers = new Set<Marker>();
   @override
   Widget build(BuildContext context) {
     return Form(
