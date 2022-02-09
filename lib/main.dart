@@ -3,6 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gigandjob_web/constants.dart';
+import 'package:gigandjob_web/create-job-offer/cubit/add_job_offer_cubit.dart';
+import 'package:gigandjob_web/create-job-offer/data/repositories/job_offer_repository.dart';
+import 'package:gigandjob_web/create-job-offer/data/requests/job_offer_request.dart';
 import 'package:gigandjob_web/login/admin_repo.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_bloc.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_events.dart';
@@ -34,26 +37,31 @@ final AdminRepository adminRepo;
   @override
   Widget build(BuildContext context) {
     
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.dark,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-        .apply(bodyColor: Colors.white),
-        canvasColor: secondaryColor
-      ),
-      title: 'Git and Job Backoffice',
-      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AddJobOfferCubit>(create: (context) => AddJobOfferCubit(repository: JobOfferRepository(jobOfferRequest: JobOfferRequest())))
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        themeMode: ThemeMode.dark,
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: bgColor,
+          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+          .apply(bodyColor: Colors.white),
+          canvasColor: secondaryColor
+        ),
+        title: 'Git and Job Backoffice',
+        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
 
-          //if (state is AuthenticationAuthenticated) {
-            return Dashboard(title:'test' ,);
-          //}
-        
-          //return LoginPage(userRepository: adminRepo,);
-        },
-      )
+            //if (state is AuthenticationAuthenticated) {
+              return Dashboard(title:'test' ,);
+            //}
+          
+            //return LoginPage(userRepository: adminRepo,);
+          },
+        )
+      ),
     );
   }
 }

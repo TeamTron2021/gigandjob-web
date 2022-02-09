@@ -9,9 +9,9 @@ class AddJobOfferCubit extends Cubit<AddJobOfferState> {
   final JobOfferRepository repository;
   AddJobOfferCubit({required this.repository}) : super(AddJobOfferInitial());
 
-  void addJobOffer(JobOffer offer ){
+  void addJobOffer(JobOffer offer, String employeerId){
    emit(AddingJobOffer());
-   repository.addJobOffer(offer).then((offer) {
+   repository.addJobOffer(offer, employeerId).then((offer) {
      if(offer != 201){
        emit(AddJobOfferError(error: 'Oops something went wrong'));
      }else{

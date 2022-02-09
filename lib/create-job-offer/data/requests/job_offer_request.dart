@@ -1,20 +1,27 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
-
+import 'package:http/http.dart' as http;
 
 class JobOfferRequest {
-  final baseUrl = "http://10.0.2.2:3000";
+  final baseUrl = "http://localhost:3000";
 
-  Future<int?> addJobOffer(String jobOffer) async {
+  Future<int?> addJobOffer(String jobOffer, String employeerId) async {
     try {
-      final response = await post(Uri.parse(baseUrl+"/job-offer/deea93d1-d683-4d7e-8dde-9d319d054345"), body: jobOffer);
-      print(response);
-      switch(response.statusCode) {
-        case 201: return 201;
-        default: return null;
+      final response = await http.post(
+          Uri.parse(
+              baseUrl + "/job-offer/$employeerId"),
+          body: jobOffer,
+          headers: {
+            "Content-type": "application/json",
+          });
+      print(response.statusCode);
+      switch (response.statusCode) {
+        case 201:
+          return 201;
+        default:
+          return null;
       }
-    }catch(e) {
+    } catch (e) {
       return null;
     }
   }
