@@ -22,11 +22,15 @@ Widget getMap() {
 
     final map = GMap(elem, mapOptions);
 
-    Marker(MarkerOptions()
+    final marker  = Marker(MarkerOptions()
       ..position = myLatlng
       ..map = map
       ..title = 'Hello World!'
+      ..icon = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
     );
+
+    final infoWindow = InfoWindow(InfoWindowOptions()..content = '');
+    marker.onClick.listen((event) => infoWindow.open(map, marker));
 
     return elem;
   });
