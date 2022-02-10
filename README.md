@@ -52,7 +52,7 @@ flutter test
 ## ✒️Autores
 * **Carlos Alonzo** - [cealonzo](https://github.com/cealonzo)
 * **Ruben Gomes** - [RubenDGomesdev](https://github.com/RubenDGomesdev)
-* **Pablo Perez** - [PabloP16](https://github.com/PabloP16)
+* **Pablo Perez** - [PabloP16](https://github.com/PabloP16) (Deploy a firebase)
 * **Andrea Mendoza** - [andreaamg22](https://github.com/andreaamg22)
 * **Diego Rojas** - [superdie18](https://github.com/superdie18)
 * **Juan Carlos Andrade** - [jotacee98](https://github.com/jotacee98)
