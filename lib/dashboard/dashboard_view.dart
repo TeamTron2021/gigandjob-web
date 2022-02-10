@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gigandjob_web/create-employeer/create_employeer_screen.dart';
 import 'package:gigandjob_web/create-job-offer/presentation/create_job_offer_screen.dart';
+import 'package:gigandjob_web/create-user/create_user_screen.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_bloc.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_events.dart';
 
@@ -37,7 +38,6 @@ import 'package:gigandjob_web/login/auth_bloc/auth_events.dart';
 //   }
 // }
 
-
 class Dashboard extends StatefulWidget {
   Dashboard({Key? key, required this.title}) : super(key: key);
 
@@ -66,32 +66,36 @@ class _MyHomePageState extends State<Dashboard> {
               selectedIconColor: Colors.black87,
               unselectedIconColor: Colors.white,
               unselectedTitleTextStyle: const TextStyle(color: Colors.white),
-             // unselectedTitleTextStyle: Colors.white70,
+              // unselectedTitleTextStyle: Colors.white70,
               // backgroundColor: Colors.amber,
               // openSideMenuWidth: 200
             ),
             title: Column(
               children: [
                 ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 150,
-                    maxWidth: 150,
-                  ),
-                  child: const Text('Git and Job\n   Backoffice', style: TextStyle(fontSize: 24),)
-                ),
+                    constraints: const BoxConstraints(
+                      maxHeight: 150,
+                      maxWidth: 150,
+                    ),
+                    child: const Text(
+                      'Git and Job\n   Backoffice',
+                      style: TextStyle(fontSize: 24),
+                    )),
                 const Divider(
                   indent: 8.0,
                   endIndent: 8.0,
                 ),
               ],
             ),
-            footer:  Padding(
+            footer: Padding(
               padding: const EdgeInsets.all(0.0),
               child: SideMenuItem(
-                priority: 7,
+                priority: 8,
                 title: 'Exit',
-                onTap: () async {BlocProvider.of<AuthenticationBloc>(context)
-                    .add(AdminLoggedOut());},
+                onTap: () async {
+                  BlocProvider.of<AuthenticationBloc>(context)
+                      .add(AdminLoggedOut());
+                },
                 icon: Icons.exit_to_app,
               ),
             ),
@@ -99,9 +103,7 @@ class _MyHomePageState extends State<Dashboard> {
               SideMenuItem(
                 priority: 0,
                 title: 'Dashboard',
-                onTap: () {
-
-                },
+                onTap: () {},
                 icon: Icons.home,
               ),
               SideMenuItem(
@@ -152,6 +154,14 @@ class _MyHomePageState extends State<Dashboard> {
                 },
                 icon: Icons.supervised_user_circle,
               ),
+              SideMenuItem(
+                priority: 7,
+                title: 'Create a User',
+                onTap: () {
+                  page.jumpToPage(7);
+                },
+                icon: Icons.person_add,
+              ),
             ],
           ),
           Expanded(
@@ -196,8 +206,8 @@ class _MyHomePageState extends State<Dashboard> {
                 ),
                 Container(
                   color: Colors.black54,
-                  child:const Center(
-                    child:  Text(
+                  child: const Center(
+                    child: Text(
                       'Page\n   5',
                       style: TextStyle(fontSize: 35),
                     ),
@@ -210,6 +220,10 @@ class _MyHomePageState extends State<Dashboard> {
                 Container(
                   color: Colors.black54,
                   child: const CreateEmployerScreen(),
+                ),
+                Container(
+                  color: Colors.black54,
+                  child: const CreateUserScreen(),
                 ),
               ],
             ),
