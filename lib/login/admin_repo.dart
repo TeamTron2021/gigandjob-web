@@ -1,15 +1,30 @@
+import 'dart:convert';
+
 import 'package:gigandjob_web/constants.dart';
+import 'package:gigandjob_web/login/auth_request.dart';
+import 'package:gigandjob_web/storage/jwt_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminRepository {
 
-  Future<String> authenticate({required String username, required String password}) async {
-    await Future.delayed(const Duration(seconds: 2));
+  final AuthRequest request = AuthRequest() ;
 
-    if (username == 'admin' && password == 'admin') {
+
+  AdminRepository();
+
+  Future<String> authenticate({required String username, required String password}) async {
+    final auth = jsonEncode(
+      <String, String>{"email": username, "password": password}
+    );
+
+    final response = await request.authAdmin(auth);
+    print(response);
+    if(response == null){
+      return 'failed';
+    }else {
       return 'success';
     }
-    return 'failed';
+
   }
 
   Future<void> deleteToken() async {
@@ -29,7 +44,7 @@ class AdminRepository {
   await Future.delayed(const Duration(seconds: 2));
   String? token = prefs.getString(tokenValue);
   //print(token);
-  if (token != null && token.length > 10) {
+  if (token != null ) {
     return true;
   } 
   return false;
@@ -38,4 +53,6 @@ class AdminRepository {
 
 }
 
-class FakeAuthenticationRepository extends AdminRepository {}
+class FakeAuthenticationRepository extends AdminRepository {
+  FakeAuthenticationRepository() : super();
+}

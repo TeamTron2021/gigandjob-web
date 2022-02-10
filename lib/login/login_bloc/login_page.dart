@@ -39,6 +39,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     
@@ -60,13 +61,25 @@ class _LoginFormState extends State<LoginForm> {
               backgroundColor: Colors.red,
             ),
           );
+          setState(() {
+            _isLoading = false;
+          });
+        }
+        if(state is LoginLoading) {
+          setState(() {
+            _isLoading = true;
+          });
+        }
+        if(state is LoginSuccess) {
+          setState(() {
+            _isLoading = false;
+          });
         }
       },
 
       child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           /// showing progress bar initially
-          if (state is LoginLoading) {}
           return Row(children: [
             Container(
               child: _loginImage(context),
@@ -89,7 +102,7 @@ class _LoginFormState extends State<LoginForm> {
                       borderRadius: BorderRadius.circular(20)),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: Column(
+                    child: _isLoading ? const CircularProgressIndicator() : Column(
                       children: [
                         TextFormField(
                           decoration: const InputDecoration(
@@ -116,13 +129,14 @@ class _LoginFormState extends State<LoginForm> {
                                     BorderSide(color: Colors.deepPurple),
                               )),
                           controller: _passwordController,
+                          obscureText: true,
                         ),
                         const SizedBox( height: 40),
                         ElevatedButton(
                           child: const SizedBox(
                             width: double.infinity,
                             height: 50,
-                            child: Center(child: Text('Sing In')),
+                            child: Center(child: Text('Sign In')),
                           ),
                           style: ElevatedButton.styleFrom(
                               primary: Colors.deepPurple,
