@@ -39,8 +39,9 @@ final AdminRepository adminRepo;
     
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AddJobOfferCubit>(create: (context) => AddJobOfferCubit(repository: JobOfferRepository(jobOfferRequest: JobOfferRequest())))
-      ],
+        BlocProvider<AddJobOfferCubit>(create: (context) => AddJobOfferCubit(repository: JobOfferRepository(jobOfferRequest: JobOfferRequest()))),
+        BlocProvider<AddInterviewCubit>(create: (context) => AddInterviewCubit(repository: InterviewRepository(interviewRequest: InterviewRequest())))
+    ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.dark,
