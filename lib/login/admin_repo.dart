@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:gigandjob_web/constants.dart';
 import 'package:gigandjob_web/login/auth_request.dart';
 import 'package:gigandjob_web/storage/jwt_model.dart';
+import 'package:gigandjob_web/storage/token_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminRepository {
@@ -30,6 +31,7 @@ class AdminRepository {
   Future<void> deleteToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
+    await TokenStorage().closeSession();
     return;
   }
 
