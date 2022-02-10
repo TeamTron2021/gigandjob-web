@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class GetEmployeerRequest {
-  final baseUrl = "http://localhost:3000";
+  final baseUrl = "https://gigandjob-backend.herokuapp.com";
 
   Future<List<dynamic>> fetchEmployers() async {
     try{
