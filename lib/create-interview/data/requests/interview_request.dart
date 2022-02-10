@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-class JobOfferRequest {
+class InterviewRequest {
   final baseUrl = "https://gigandjob-backend.herokuapp.com";
 
-  Future<int?> addJobOffer(String jobOffer, String employeerId) async {
+  Future<int?> addInterview(String interview, String postulationId) async {
     try {
       final response = await http.post(
           Uri.parse(
-              baseUrl + "/job-offer/$employeerId"),
-          body: jobOffer,
+              baseUrl + "/interview/$postulationId"),
+          body: interview,
           headers: {
             "Content-type": "application/json",
           });

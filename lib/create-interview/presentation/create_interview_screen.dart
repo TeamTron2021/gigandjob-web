@@ -1,27 +1,27 @@
 import 'package:clippy_flutter/arc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gigandjob_web/create-job-offer/cubit/get_employeers_cubit.dart';
-import 'package:gigandjob_web/create-job-offer/data/repositories/get_employer_repository.dart';
-import 'package:gigandjob_web/create-job-offer/data/requests/get_employeer_request.dart';
-import 'package:gigandjob_web/create-job-offer/presentation/widgets/create_job_offer_form.dart';
+import 'package:gigandjob_web/create-interview/cubit/get_postulations_cubit.dart';
+import 'package:gigandjob_web/create-interview/data/repositories/get_postulation_repository.dart';
+import 'package:gigandjob_web/create-interview/data/requests/get_postulation_request.dart';
+import 'package:gigandjob_web/create-interview/presentation/widgets/create_interview_form.dart';
 
-class CreateJobOfferScreen extends StatefulWidget {
-  const CreateJobOfferScreen({Key? key}) : super(key: key);
+class CreateInterviewScreen extends StatefulWidget {
+  const CreateInterviewScreen({Key? key}) : super(key: key);
 
   @override
-  _CreateJobOfferScreenState createState() => _CreateJobOfferScreenState();
+  _CreateInterviewScreenState createState() => _CreateInterviewScreenState();
 }
 
-class _CreateJobOfferScreenState extends State<CreateJobOfferScreen> {
+class _CreateInterviewScreenState extends State<CreateInterviewScreen> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<GetEmployeersCubit>(
-            create: (context) => GetEmployeersCubit(
+        BlocProvider<GetPostulationsCubit>(
+            create: (context) => GetPostulationsCubit(
                 repository:
-                    GetEmployeerRepository(request: GetEmployeerRequest()))),
+                    GetPostulationRepository(request: GetPostulationRequest()))),
       ],
       child: Scaffold(
         body: SingleChildScrollView(
@@ -42,7 +42,7 @@ class _CreateJobOfferScreenState extends State<CreateJobOfferScreen> {
                 Divider(
                   color: Colors.white,
                 ),
-                Center(child: CreateJobOfferForm()),
+                Center(child: CreateInterviewForm()),
               ],
             ),
           ),

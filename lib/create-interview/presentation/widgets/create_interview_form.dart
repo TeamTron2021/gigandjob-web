@@ -1,48 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gigandjob_web/create-job-offer/cubit/add_job_offer_cubit.dart';
-import 'package:gigandjob_web/create-job-offer/cubit/add_job_offer_cubit.dart';
-import 'package:gigandjob_web/create-job-offer/cubit/get_employeers_cubit.dart';
-import 'package:gigandjob_web/create-job-offer/data/models/employeer_response.dart';
-import 'package:gigandjob_web/create-job-offer/data/models/job_offer.dart';
-import 'package:gigandjob_web/create-job-offer/data/models/skill.dart';
+import 'package:gigandjob_web/create-interview/cubit/add_interview_cubit.dart';
+import 'package:gigandjob_web/create-interview/cubit/add_interview_cubit.dart';
+import 'package:gigandjob_web/create-interview/cubit/get_postulations_cubit.dart';
+import 'package:gigandjob_web/create-interview/data/models/postulation_response.dart';
+import 'package:gigandjob_web/create-interview/data/models/interview.dart';
 import 'package:intl/intl.dart';
 
-class CreateJobOfferForm extends StatefulWidget {
-  const CreateJobOfferForm({Key? key}) : super(key: key);
+class CreateInterviewForm extends StatefulWidget {
+  const CreateInterviewForm({Key? key}) : super(key: key);
 
   @override
-  _CreateJobOfferFormState createState() => _CreateJobOfferFormState();
+  _CreateInterviewFormState createState() => _CreateInterviewFormState();
 }
 
-class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
+class _CreateInterviewFormState extends State<CreateInterviewForm> {
   final _formKey = GlobalKey<FormState>();
   String dropdownValue = '';
-  DateTime finalDate = DateTime.now();
-  DateTime currentDate = DateTime.now();
-  final descriptionController = TextEditingController();
+  DateTime date = DateTime.now();
   final titleController = TextEditingController();
-  final salaryController = TextEditingController();
-  final skill1Controller = TextEditingController();
-  final skill2Controller = TextEditingController();
-  final skill3Controller = TextEditingController();
-  final skill4Controller = TextEditingController();
-  final vacantController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   bool isLoading = true;
   bool saving = false;
-  List<EmployeerResponse> employeerList = [];
+  List<PostulationResponse> postulationList = [];
   Future<void> _selectInitialDate() async {
     final DateTime? pickedDate = await showDatePicker(
         context: context,
-        initialDate: currentDate,
+        initialDate: date,
         firstDate: DateTime.now(),
         lastDate: DateTime(2050));
-    if (pickedDate != null && pickedDate != currentDate) {
+    if (pickedDate != null && pickedDate != date) {
       setState(() {
-        currentDate = pickedDate;
+        date = pickedDate;
         finalDate =
-            DateTime(currentDate.year, currentDate.month, currentDate.day + 3);
+            DateTime(date.year, date.month, date.day + 3);
       });
     }
   }
@@ -51,51 +44,25 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
   void _submitData() {
     final title = titleController.text;
     final description =  descriptionController.text;
-    final vacants = int.parse(vacantController.text);
-    final salary = int.parse(salaryController.text);
-    List<Skill> skills = [];
-    if(skill1Controller.text.isNotEmpty){
-      skills.add(Skill(skill1Controller.text));
-    }
-    if(skill2Controller.text.isNotEmpty){
-      skills.add(Skill(skill2Controller.text));
-    }
-    if(skill3Controller.text.isNotEmpty){
-      skills.add(Skill(skill3Controller.text));
-    }
-    if(skill4Controller.text.isNotEmpty){
-      skills.add(Skill(skill4Controller.text));
-    }
-    var jobOfferToSave = JobOffer(description: description, salary: salary, skills: skills, title: title, vacant: vacants, startDate: currentDate, finalDate: finalDate);
-    BlocProvider.of<AddJobOfferCubit>(context)
-        .addJobOffer(jobOfferToSave, dropdownValue);
+   
+    var interviewToSave = Interview(title: title, description: description, date: date);
+    BlocProvider.of<AddInterviewCubit>(context)
+        .addInterview(interviewToSave, dropdownValue);
   }
 
-  Future<void> _selectFinalDate() async {
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: finalDate,
-        firstDate: finalDate,
-        lastDate: DateTime(2050));
-    if (pickedDate != null && pickedDate != currentDate) {
-      setState(() {
-        finalDate = pickedDate;
-      });
-    }
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    BlocProvider.of<GetEmployeersCubit>(context).fetchEmployeers();
+    BlocProvider.of<GetPostulationsCubit>(context).fetchPostulations();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AddJobOfferCubit, AddJobOfferState>(
+    return BlocListener<AddInterviewCubit, AddInterviewState>(
       listener: (context, state) {
-        if (state is AddJobOfferError) {
+        if (state is AddInterviewError) {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text(state.error),
             duration: Duration(milliseconds: 1000),
@@ -105,13 +72,13 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
             saving = false;
           });
         }
-        if (state is AddingJobOffer){
+        if (state is AddingInterview){
           setState(() {
             saving = true;
           });
         }
 
-        if (state is JobOfferAdded) {
+        if (state is InterviewAdded) {
           _resetForm();
           Scaffold.of(context).showSnackBar(const SnackBar(
             content: const Text('Succeed'),
@@ -123,20 +90,20 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
           });
         }
       },
-      child: BlocBuilder<GetEmployeersCubit, GetEmployeersState>(
+      child: BlocBuilder<GetPostulationsCubit, GetPostulationsState>(
   builder: (context, state) {
     if(isLoading){
-      if (state is FetchingEmployeers) {
+      if (state is FetchingPostulations) {
         return const CircularProgressIndicator();
       }
-      if(state is EmployeersFetched) {
+      if(state is PostulationsFetched) {
 
-        dropdownValue = state.employeers[0].id;
-        employeerList = state.employeers;
+        dropdownValue = state.postulations[0].id;
+        postulationList = state.postulations;
           isLoading = false;
 
       }
-      if(state is FetchingEmployeersError) {
+      if(state is FetchingPostulationsError) {
         Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(state.error),
           duration: Duration(milliseconds: 1000),
@@ -182,46 +149,9 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
               const SizedBox(
                 height: 25,
               ),
-              Center(
-                child: TextFormField(
-                  decoration: const InputDecoration(labelText: 'Vacants'),
-                  controller: vacantController,
-                  validator: (value) {
-                    if(value!.isNotEmpty && int.parse(value) >=1){
-                      return null;
-                    }
-                    return 'The offer should have one vacant at least';
-                  },
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Center(
-                child: TextFormField(
-                  decoration: const InputDecoration(labelText: 'Salary'),
-                  keyboardType: TextInputType.number,
-                  controller: salaryController,
-                  validator: (value) {
-                    if(value!.isNotEmpty && int.parse(value) >=10){
-                      return null;
-                    }
-                    return 'The minimun wage is 10';
-                  },
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
+             
               const Text(
-                'Select the employeer',
+                'Select the postulation',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               DropdownButton<String>(
@@ -240,98 +170,20 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
                   });
                   print(dropdownValue);
                 },
-                items: employeerList
-                    .map<DropdownMenuItem<String>>((employeer) {
+                items: postulationList
+                    .map<DropdownMenuItem<String>>((postulation) {
                   return DropdownMenuItem<String>(
-                    value: employeer.id,
-                    child: Text(employeer.companyName),
+                    value: postulation.id,
+                    child: Text(postulation.date),
                   );
                 }).toList(),
               ),
               const SizedBox(
                 height: 25,
               ),
+             
               const Text(
-                'Add at least one skill needed for the offer',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              Center(
-                  child: TextFormField(
-                decoration: const InputDecoration(labelText: 'Skill 1'),
-                    controller: skill1Controller,
-                    validator: (value) {
-                      var skill2 = skill2Controller.text.isNotEmpty;
-                      var skill3 = skill3Controller.text.isNotEmpty;
-                      var skill4 = skill4Controller.text.isNotEmpty;
-                      if(skill2 || skill3 || skill4 || value!.isNotEmpty){
-                        return null;
-                      }
-
-                        return 'You need to add at least one skill';
-
-                    },
-              ),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Center(
-                  child: TextFormField(
-                decoration: const InputDecoration(labelText: 'Skill 2'),
-                    controller: skill2Controller,
-                    validator: (value) {
-                      var skill1 = skill1Controller.text.isNotEmpty;
-                      var skill3 = skill3Controller.text.isNotEmpty;
-                      var skill4 = skill4Controller.text.isNotEmpty;
-                      if(skill1 || skill3 || skill4 || value!.isNotEmpty){
-                        return null;
-                      }
-
-                      return 'You need to add at least one skill';
-
-                    },
-              )),
-              const SizedBox(
-                height: 25,
-              ),
-              Center(
-                  child: TextFormField(
-                decoration: const InputDecoration(labelText: 'Skill 3'),
-                    controller: skill3Controller,
-                    validator: (value) {
-                      var skill1 = skill1Controller.text.isNotEmpty;
-                      var skill2 = skill2Controller.text.isNotEmpty;
-                      var skill4 = skill4Controller.text.isNotEmpty;
-                      if(skill1 || skill2 || skill4 || value!.isNotEmpty){
-                        return null;
-                      }
-
-                      return 'You need to add at least one skill';
-                    },
-              )),
-              const SizedBox(
-                height: 25,
-              ),
-              Center(
-                  child: TextFormField(
-                decoration: const InputDecoration(labelText: 'Skill 4'),
-                    controller: skill4Controller,
-                    validator: (value) {
-                      var skill1 = skill1Controller.text.isNotEmpty;
-                      var skill2 = skill2Controller.text.isNotEmpty;
-                      var skill3 = skill3Controller.text.isNotEmpty;
-                      if(skill1 || skill2 || skill3 || value!.isNotEmpty){
-                        return null;
-                      }
-
-                      return 'You need to add at least one skill';
-                    },
-              )),
-              const SizedBox(
-                height: 25,
-              ),
-              const Text(
-                'Please enter the Start Date',
+                'Please enter the Date',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               ElevatedButton.icon(
@@ -345,33 +197,13 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
                 ),
               ),
               Text(
-                DateFormat.yMMMd().format(currentDate),
+                DateFormat.yMMMd().format(date),
                 style: const TextStyle(fontSize: 17),
               ),
               const SizedBox(
                 height: 25,
               ),
-              const Text(
-                'Please enter the final Date',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              ElevatedButton.icon(
-                label: const Text('Pick the date'),
-                icon: const Icon(Icons.calendar_today),
-                onPressed: () {
-                  _selectFinalDate();
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColorDark,
-                ),
-              ),
-              Text(
-                DateFormat.yMMMd().format(finalDate),
-                style: const TextStyle(fontSize: 17),
-              ),
-              const SizedBox(
-                height: 25,
-              ),
+             
               ElevatedButton.icon(
                 label: const Text(
                   'Send',
@@ -399,17 +231,10 @@ class _CreateJobOfferFormState extends State<CreateJobOfferForm> {
   }
 
   void _resetForm() {
-    currentDate = DateTime.now();
-    finalDate = DateTime.now();
-    dropdownValue = employeerList[0].id;
+    date = DateTime.now();
+    dropdownValue = postulationList[0].id;
     descriptionController.clear();
     titleController.clear();
-    salaryController.clear();
-    vacantController.clear();
-    skill1Controller.clear();
-    skill2Controller.clear();
-    skill3Controller.clear();
-    skill4Controller.clear();
     return;
   }
 }
