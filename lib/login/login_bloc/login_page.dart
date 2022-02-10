@@ -145,7 +145,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Widget _loginImage(context) {
+ /* Widget _loginImage(context) {
     return Diagonal(
       clipHeight: 100.0,
       axis: Axis.vertical,
@@ -160,5 +160,5 @@ class _LoginFormState extends State<LoginForm> {
         ),
       ),
     );
-  }
+  }*/
 }
