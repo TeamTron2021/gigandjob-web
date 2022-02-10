@@ -32,7 +32,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       final token = await _adminRepository
       .authenticate(username: event.username, password: event.password);
-      
+      print(token);
       if (token == 'success') {
         _authenticationBloc.add(AdminLoggedIn(token: token));
       }  else {
