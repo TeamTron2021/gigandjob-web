@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gigandjob_web/constants.dart';
 import 'package:gigandjob_web/create-job-offer/cubit/add_job_offer_cubit.dart';
+import 'package:gigandjob_web/create-job-offer/cubit/create_gig_cubit.dart';
+import 'package:gigandjob_web/create-job-offer/data/repositories/gig_repository.dart';
 import 'package:gigandjob_web/create-job-offer/data/repositories/job_offer_repository.dart';
+import 'package:gigandjob_web/create-job-offer/data/requests/gig_request.dart';
 import 'package:gigandjob_web/create-job-offer/data/requests/job_offer_request.dart';
 import 'package:gigandjob_web/login/admin_repo.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_bloc.dart';
@@ -40,7 +43,8 @@ final AdminRepository adminRepo;
     
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AddJobOfferCubit>(create: (context) => AddJobOfferCubit(repository: JobOfferRepository(jobOfferRequest: JobOfferRequest())))
+        BlocProvider<AddJobOfferCubit>(create: (context) => AddJobOfferCubit(repository: JobOfferRepository(jobOfferRequest: JobOfferRequest()))),
+        BlocProvider<CreateGigCubit>(create: (context) => CreateGigCubit(repository: GigRepository(request: GigRequest())))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
