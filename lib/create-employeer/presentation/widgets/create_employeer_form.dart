@@ -134,7 +134,7 @@ class _CreateEmployerFormState extends State<CreateEmployerForm> {
                       controller: rifController,
                       validator: (value) {
                         if (value!.isNotEmpty &&
-                            RegExp(r"^J+-+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+[0-9]+-+[0-9]")
+                            RegExp(r'^[J][-][0-9]{8}[-][0-9]$')
                                 .hasMatch(value)) {
                           return null;
                         }

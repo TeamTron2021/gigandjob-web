@@ -1,25 +1,23 @@
 import 'dart:convert';
 
+import 'package:gigandjob_web/storage/jwt_model.dart';
 import 'package:gigandjob_web/storage/token_storage.dart';
 import 'package:http/http.dart' as http;
 
-class JobOfferRequest {
+class AuthRequest {
   final baseUrl = "https://gigandjob-backend.herokuapp.com";
 
-  Future<int?> addJobOffer(String jobOffer, String employeerId) async {
+  Future<int?> authAdmin(String adminCredencials) async {
     try {
-      final token = await TokenStorage().getToken();
-      final response = await http.post(
-          Uri.parse(
-              baseUrl + "/job-offer/$employeerId"),
-          body: jobOffer,
+      final response = await http.post(Uri.parse(baseUrl + "/auth/admin"),
+          body: adminCredencials,
           headers: {
             "Content-type": "application/json",
-            'Authorization': 'Bearer $token',
           });
-      print(response.statusCode);
+      print(jsonDecode(response.body));
       switch (response.statusCode) {
-        case 201:
+        case 201: final token = JwtToken.fromJson(jsonDecode(response.body));
+                  await TokenStorage().writeSecureData(token);
           return 201;
         default:
           return null;
