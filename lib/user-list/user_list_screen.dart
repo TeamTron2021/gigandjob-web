@@ -86,9 +86,11 @@ class _UserListScreen extends StatelessWidget {
                                       onPressed: user.status == "Supended"
                                           ? () {
                                               bloc.reactivateUser(user);
-                                              print(user);
                                             }
-                                          : () => bloc.suspendUser(user))
+                                          : () {
+                                              print(user.status);
+                                              bloc.suspendUser(user);
+                                            })
                                 ],
                               ),
                             ),

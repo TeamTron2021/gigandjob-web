@@ -38,9 +38,8 @@ class UserListCubit extends Cubit<UserListCubitState> {
   }
 
   Future<void> suspendUser(UserModel model) async {
-    print(model);
     await repository.suspend(model.id);
-    model.status = "Suspended";
+    model.status = "Supended";
     emit(UserListCubitState(
         model: state.model.map((m) {
       if (m.id == model.id)
