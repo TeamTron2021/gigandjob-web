@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gigandjob_web/create-employeer/create_employeer_screen.dart';
 import 'package:gigandjob_web/create-job-offer/presentation/create_job_offer_screen.dart';
+import 'package:gigandjob_web/create-user/create_user_repository.dart';
 import 'package:gigandjob_web/create-user/create_user_screen.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_bloc.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_events.dart';
+import 'package:gigandjob_web/user-list/user_list_screen.dart';
 
 // class Dashboard extends StatelessWidget {
 //   @override
@@ -180,10 +182,7 @@ class _MyHomePageState extends State<Dashboard> {
                 Container(
                   color: Colors.black54,
                   child: const Center(
-                    child: Text(
-                      'Page\n   2',
-                      style: TextStyle(fontSize: 35),
-                    ),
+                    child: UserListScreen(),
                   ),
                 ),
                 Container(
@@ -222,9 +221,16 @@ class _MyHomePageState extends State<Dashboard> {
                   child: const CreateEmployerScreen(),
                 ),
                 Container(
-                  color: Colors.black54,
-                  child: const CreateUserScreen(),
-                ),
+                    color: Colors.black54,
+                    child: MultiRepositoryProvider(
+                      providers: [
+                        RepositoryProvider<CreateUserRepository>(
+                            create: (context) => EndpointCreateUserRepository(
+                                url:
+                                    "https://gigandjob-backend.herokuapp.com/users")),
+                      ],
+                      child: CreateUserScreen(),
+                    )),
               ],
             ),
           ),
