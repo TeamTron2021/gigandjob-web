@@ -9,22 +9,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:gigandjob_web/main.dart';
+import 'package:gigandjob_web/user-list/user_list_model.dart';
+import 'package:gigandjob_web/user-list/user_list_repository.dart';
+import 'package:gigandjob_web/user-list/user_list_screen.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets("Option button reactive on user list",
+      (WidgetTester tester) async {
+    final widget =
+        OptionButtonSuspendComponent(suspend: true, onPressed: () {});
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: widget)));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    var txtBtn = find.text("Reactive");
+    expect(txtBtn, findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets("Option button reactive on user list",
+      (WidgetTester tester) async {
+    final widget =
+        OptionButtonSuspendComponent(suspend: false, onPressed: () {});
+
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: widget)));
+
+    var txtBtn = find.text("Suspend");
+    expect(txtBtn, findsOneWidget);
   });
 }
