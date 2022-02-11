@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gigandjob_web/constants.dart';
 import 'package:gigandjob_web/create-job-offer/cubit/add_job_offer_cubit.dart';
+import 'package:gigandjob_web/create-job-offer/cubit/create_gig_cubit.dart';
+import 'package:gigandjob_web/create-job-offer/data/repositories/gig_repository.dart';
 import 'package:gigandjob_web/create-job-offer/data/repositories/job_offer_repository.dart';
+import 'package:gigandjob_web/create-job-offer/data/requests/gig_request.dart';
 import 'package:gigandjob_web/create-job-offer/data/requests/job_offer_request.dart';
 import 'package:gigandjob_web/login/admin_repo.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_bloc.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_events.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_state.dart';
+import 'package:gigandjob_web/login/auth_request.dart';
 import 'package:gigandjob_web/login/login_bloc/login_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dashboard/dashboard_view.dart';
@@ -39,7 +43,8 @@ final AdminRepository adminRepo;
     
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AddJobOfferCubit>(create: (context) => AddJobOfferCubit(repository: JobOfferRepository(jobOfferRequest: JobOfferRequest())))
+        BlocProvider<AddJobOfferCubit>(create: (context) => AddJobOfferCubit(repository: JobOfferRepository(jobOfferRequest: JobOfferRequest()))),
+        BlocProvider<CreateGigCubit>(create: (context) => CreateGigCubit(repository: GigRepository(request: GigRequest())))
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -53,9 +58,12 @@ final AdminRepository adminRepo;
         title: 'Git and Job Backoffice',
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
-
+            print(state);
             if (state is AuthenticationAuthenticated) {
               return Dashboard(title:'test' ,);
+            }
+            if(state is AuthenticationLoading){
+              return CircularProgressIndicator();
             }
           
             return LoginPage(userRepository: adminRepo,);
