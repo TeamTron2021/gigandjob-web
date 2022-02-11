@@ -39,8 +39,7 @@ class _CreateUserScreen extends StatelessWidget {
     });
     bloc.update();
 
-    return BlocConsumer<CreateUserCubit, CreateUserCubitState>(
-      listener: (context, state) {},
+    return BlocBuilder<CreateUserCubit, CreateUserCubitState>(
       bloc: bloc,
       builder: (context, state) => SingleChildScrollView(
         child: Padding(

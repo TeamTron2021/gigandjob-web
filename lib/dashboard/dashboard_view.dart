@@ -7,6 +7,7 @@ import 'package:gigandjob_web/create-user/create_user_repository.dart';
 import 'package:gigandjob_web/create-user/create_user_screen.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_bloc.dart';
 import 'package:gigandjob_web/login/auth_bloc/auth_events.dart';
+import 'package:gigandjob_web/user-list/user_list_repository.dart';
 import 'package:gigandjob_web/user-list/user_list_screen.dart';
 
 // class Dashboard extends StatelessWidget {
@@ -180,11 +181,16 @@ class _MyHomePageState extends State<Dashboard> {
                   ),
                 ),
                 Container(
-                  color: Colors.black54,
-                  child: const Center(
-                    child: UserListScreen(),
-                  ),
-                ),
+                    color: Colors.black54,
+                    child: MultiRepositoryProvider(
+                      providers: [
+                        RepositoryProvider<UserListRepository>(
+                            create: (context) => EndpointUserListRepository(
+                                url:
+                                    "https://gigandjob-backend.herokuapp.com/users")),
+                      ],
+                      child: UserListScreen(),
+                    )),
                 Container(
                   color: Colors.black54,
                   child: const Center(

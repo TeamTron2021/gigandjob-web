@@ -43,6 +43,7 @@ class CreateUserCubit extends Cubit<CreateUserCubitState> {
   }
 
   update({void Function(CreateUserModel model)? cb}) {
+    print(cb);
     if (cb != null) cb(state.model);
     Map<String, String> errors = {};
     final now = DateTime.now();
